@@ -1,4 +1,4 @@
-const CACHE = "contagem-v1";
+const CACHE = "contagem-v2";
 const BASE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASE)));
@@ -16,6 +16,11 @@ self.addEventListener("fetch", e => {
   const ehApp = url.origin === location.origin;
   const ehSdk = url.hostname === "www.gstatic.com" || url.hostname.includes("fonts.");
   if (!ehApp && !ehSdk) return;
+  if (req.mode === "navigate" || url.pathname.endsWith("index.html") || url.pathname.endsWith("/")) {
+    e.respondWith(fetch(req).then(res => { const c = res.clone(); caches.open(CACHE).then(k => k.put(req, c)); return res; })
+      .catch(() => caches.match(req).then(r => r || caches.match("./index.html"))));
+    return;
+  }
   e.respondWith(
     caches.match(req).then(cached => {
       const rede = fetch(req).then(res => {
