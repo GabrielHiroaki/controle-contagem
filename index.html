@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d4d3b">
+<title>Contagem do Estoque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde:#1d4d3b; --verde-2:#2c6b54; --gema:#f2b705; --gema-fundo:#fff3c4;
+    --fundo:#eef2ec; --cartao:#ffffff; --texto:#17231d; --suave:#5d6b63;
+    --linha:#d9e1da; --perigo:#b3392b;
+    --titulo:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+    --corpo:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --fundo:#0f1a15; --cartao:#17251f; --texto:#eaf1ec; --suave:#9db0a5; --linha:#27392f; --gema-fundo:#3a3210; --verde:#123628; }
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--fundo);color:var(--texto);font-family:var(--corpo);font-size:16px}
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  header{
+    background:var(--verde);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;
+    position:sticky;top:0;z-index:10;
+  }
+  header h1{margin:0;font:800 22px/1.1 var(--titulo);letter-spacing:-.01em}
+  header .sub{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:13px;opacity:.9}
+  .status{display:inline-flex;align-items:center;gap:6px}
+  .status i{width:9px;height:9px;border-radius:50%;background:#e0a39a;display:inline-block}
+  .status.on i{background:#7ee2a8}
+  .quem{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:999px;padding:6px 12px;font:500 13px var(--corpo)}
+  main{padding:14px 14px 0;max-width:640px;margin:0 auto}
+  .busca{display:flex;gap:8px;margin-bottom:12px}
+  input,button{font-family:inherit}
+  .campo{
+    width:100%;border:1.5px solid var(--linha);background:var(--cartao);color:var(--texto);
+    border-radius:12px;padding:13px 14px;font-size:16px;outline:none
+  }
+  .campo:focus{border-color:var(--verde-2);box-shadow:0 0 0 3px rgba(44,107,84,.18)}
+  .btn{border:0;border-radius:12px;padding:13px 16px;font:700 15px var(--corpo);cursor:pointer}
+  .btn.primario{background:var(--gema);color:#2a2100}
+  .btn.verde{background:var(--verde);color:#fff}
+  .btn.suave{background:transparent;color:var(--suave);border:1.5px solid var(--linha)}
+  .btn.perigo{background:transparent;color:var(--perigo);border:1.5px solid var(--perigo)}
+  .btn:active{transform:scale(.98)}
+  .item{background:var(--cartao);border:1px solid var(--linha);border-radius:16px;padding:14px;margin-bottom:12px}
+  .item-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .item-nome{font:700 18px/1.2 var(--titulo);word-break:break-word}
+  .item-total{font:800 34px/1 var(--titulo);color:var(--verde-2);text-align:right;transition:color .2s}
+  @media (prefers-color-scheme:dark){.item-total{color:var(--gema)}}
+  .item-total small{display:block;font:500 11px var(--corpo);color:var(--suave);margin-top:2px}
+  .item-total.flash{color:var(--gema)}
+  .entrada{display:flex;gap:8px;margin-top:12px}
+  .entrada .campo{font-size:20px;font-weight:600;text-align:center;padding:12px 8px}
+  .entrada .btn{white-space:nowrap;min-width:104px}
+  .atalhos{display:flex;gap:8px;margin-top:8px}
+  .atalhos button{flex:1;border:1.5px solid var(--linha);background:var(--gema-fundo);color:var(--texto);border-radius:10px;padding:9px 0;font:600 14px var(--corpo)}
+  .mais{margin-top:10px;display:flex;gap:14px}
+  .mais button{background:none;border:0;color:var(--suave);font:500 13px var(--corpo);padding:4px 0;text-decoration:underline}
+  .vazio{text-align:center;color:var(--suave);padding:36px 16px;line-height:1.5}
+  .tot-linha{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;background:var(--cartao);border:1px solid var(--linha);border-radius:14px;margin-bottom:8px}
+  .tot-linha b{font:700 17px var(--titulo);word-break:break-word}
+  .tot-linha span{font:800 26px var(--titulo);color:var(--verde-2)}
+  @media (prefers-color-scheme:dark){.tot-linha span{color:var(--gema)}}
+  .resumo{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 12px;color:var(--suave);font-size:14px}
+  .acoes{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .acoes .btn{flex:1;min-width:140px}
+  .hist{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:var(--cartao);border:1px solid var(--linha);border-radius:14px;margin-bottom:8px}
+  .hist .l{min-width:0}
+  .hist .l b{display:block;font-weight:600;word-break:break-word}
+  .hist .l small{color:var(--suave);font-size:12px}
+  .hist .q{font:800 20px var(--titulo);color:var(--verde-2)}
+  @media (prefers-color-scheme:dark){.hist .q{color:var(--gema)}}
+  .hist button{border:1.5px solid var(--linha);background:transparent;color:var(--perigo);border-radius:10px;padding:8px 10px;font:600 12px var(--corpo)}
+  nav{
+    position:fixed;left:0;right:0;bottom:0;background:var(--cartao);border-top:1px solid var(--linha);
+    display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:20
+  }
+  nav button{flex:1;border:0;background:none;padding:12px 4px 10px;color:var(--suave);font:600 13px var(--corpo);display:flex;flex-direction:column;align-items:center;gap:3px}
+  nav button svg{width:22px;height:22px}
+  nav button.ativo{color:var(--verde-2);box-shadow:inset 0 3px 0 var(--gema)}
+  @media (prefers-color-scheme:dark){nav button.ativo{color:var(--gema)}}
+  .aba{display:none}.aba.ativa{display:block}
+  #toast{
+    position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
+    background:#17231d;color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;
+    transition:.25s;z-index:30;max-width:88vw;text-align:center
+  }
+  #toast.mostra{opacity:1;transform:translate(-50%,0)}
+  #aviso{display:none;background:#fde8e4;color:#7a1f14;padding:12px 14px;border-radius:12px;margin-bottom:12px;font-size:14px;line-height:1.45}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Contagem do Estoque</h1>
+  <div class="sub">
+    <span class="status" id="status"><i></i><span id="statusTxt">Conectando…</span></span>
+    <button class="quem" id="btnQuem">Quem está contando?</button>
+  </div>
+</header>
+
+<main>
+  <div id="aviso"></div>
+
+  <!-- CONTAR -->
+  <section class="aba ativa" id="aba-contar">
+    <div class="busca">
+      <input class="campo" id="busca" type="search" placeholder="Buscar item…" autocomplete="off">
+      <button class="btn primario" id="btnNovo">+ Novo item</button>
+    </div>
+    <div id="lista"></div>
+  </section>
+
+  <!-- TOTAIS -->
+  <section class="aba" id="aba-totais">
+    <div class="resumo"><span id="resumoTxt"></span></div>
+    <div id="totais"></div>
+    <div class="acoes">
+      <button class="btn verde" id="btnCopiar">Copiar totais</button>
+      <button class="btn perigo" id="btnZerar">Zerar tudo</button>
+    </div>
+  </section>
+
+  <!-- HISTÓRICO -->
+  <section class="aba" id="aba-hist">
+    <div class="resumo"><span>Últimas 100 contagens. Toque em Desfazer para corrigir um erro.</span></div>
+    <div id="hist"></div>
+  </section>
+</main>
+
+<nav>
+  <button class="ativo" data-aba="contar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Contar
+  </button>
+  <button data-aba="totais">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Totais
+  </button>
+  <button data-aba="hist">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Histórico
+  </button>
+</nav>
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore, collection, doc, onSnapshot, query, orderBy, limit, where, getDocs,
+  writeBatch, increment, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDhmsZq1dDTy4itIzKfLQvEQOLTCaVzxgw",
+  authDomain: "controle-contador.firebaseapp.com",
+  projectId: "controle-contador",
+  storageBucket: "controle-contador.firebasestorage.app",
+  messagingSenderId: "36451856648",
+  appId: "1:36451856648:web:879472eee5c15352e5bcbd",
+  measurementId: "G-46H3NG6BGB"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const itensRef = collection(db, "itens");
+const contRef = collection(db, "contagens");
+
+const $ = (s) => document.querySelector(s);
+const state = { itens: [], hist: [], rascunho: {}, sigLista: "" };
+const nf = new Intl.NumberFormat("pt-BR");
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+/* ---------- utilidades ---------- */
+let toastT;
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("mostra");
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("mostra"), 2200);
+}
+function quem(){ return localStorage.getItem("contador_nome") || ""; }
+function atualizaQuem(){ $("#btnQuem").textContent = quem() ? "👤 " + quem() : "Quem está contando?"; }
+function erro(e){
+  console.error(e);
+  const a = $("#aviso");
+  const permissao = e && (e.code === "permission-denied");
+  a.style.display = "block";
+  a.innerHTML = permissao
+    ? "<b>O Firebase bloqueou o acesso.</b> No Console do Firebase, abra <b>Firestore Database → Regras</b> e libere leitura e escrita (veja as instruções que enviei junto com este arquivo)."
+    : "Não foi possível salvar/ler os dados: " + esc(e.message || e);
+}
+function dataBR(ts){
+  if(!ts) return "agora";
+  const d = ts.toDate();
+  return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}) + " " + d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+}
+
+/* ---------- abas ---------- */
+document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("nav button").forEach(x => x.classList.toggle("ativo", x === b));
+  document.querySelectorAll(".aba").forEach(a => a.classList.toggle("ativa", a.id === "aba-" + b.dataset.aba));
+  window.scrollTo({ top: 0 });
+}));
+
+/* ---------- tempo real ---------- */
+onSnapshot(itensRef, { includeMetadataChanges: true }, (snap) => {
+  state.itens = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    .sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR", { sensitivity:"base" }));
+  const online = !snap.metadata.fromCache;
+  $("#status").classList.toggle("on", online);
+  $("#statusTxt").textContent = online ? "Sincronizado" : "Sem conexão";
+  renderTudo();
+}, erro);
+
+onSnapshot(query(contRef, orderBy("ts","desc"), limit(100)), (snap) => {
+  state.hist = snap.docs.map(d => ({ id: d.id, ...d.data({ serverTimestamps:"estimate" }) }));
+  renderHist();
+}, erro);
+
+/* ---------- renderização ---------- */
+function renderTudo(){ renderLista(); renderTotais(); }
+
+function renderLista(){
+  const filtro = $("#busca").value.trim().toLowerCase();
+  const itens = state.itens.filter(i => i.nome.toLowerCase().includes(filtro));
+  const sig = itens.map(i => i.id + "|" + i.nome).join(";");
+  const lista = $("#lista");
+
+  const focoNoInput = lista.contains(document.activeElement) && document.activeElement.tagName === "INPUT";
+  if(focoNoInput && sig === state.sigLista){
+    itens.forEach(i => {
+      const el = lista.querySelector(`[data-total="${i.id}"]`);
+      if(el) el.textContent = nf.format(i.total || 0);
+    });
+    return;
+  }
+  state.sigLista = sig;
+
+  if(!state.itens.length){
+    lista.innerHTML = `<div class="vazio">Nenhum item ainda.<br>Toque em <b>+ Novo item</b> para criar o primeiro<br>(ex.: Ovo branco grande, Caixa 30 dúzias).</div>`;
+    return;
+  }
+  if(!itens.length){ lista.innerHTML = `<div class="vazio">Nenhum item encontrado para “${esc(filtro)}”.</div>`; return; }
+
+  lista.innerHTML = itens.map(i => `
+    <div class="item" data-id="${i.id}">
+      <div class="item-topo">
+        <div class="item-nome">${esc(i.nome)}</div>
+        <div class="item-total"><span data-total="${i.id}">${nf.format(i.total || 0)}</span><small>contados</small></div>
+      </div>
+      <div class="entrada">
+        <input class="campo" type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Quantidade" data-input="${i.id}" value="${state.rascunho[i.id] ?? ""}">
+        <button class="btn verde" data-somar="${i.id}">Somar</button>
+      </div>
+      <div class="atalhos">
+        <button data-atalho="${i.id}" data-v="1">+1</button>
+        <button data-atalho="${i.id}" data-v="10">+10</button>
+        <button data-atalho="${i.id}" data-v="30">+30</button>
+        <button data-atalho="${i.id}" data-v="100">+100</button>
+      </div>
+      <div class="mais">
+        <button data-renomear="${i.id}">Renomear</button>
+        <button data-excluir="${i.id}">Excluir item</button>
+      </div>
+    </div>`).join("");
+}
+
+function renderTotais(){
+  const t = $("#totais");
+  $("#resumoTxt").textContent = state.itens.length
+    ? `${state.itens.length} ${state.itens.length === 1 ? "item" : "itens"} cadastrados`
+    : "";
+  if(!state.itens.length){ t.innerHTML = `<div class="vazio">Os totais aparecem aqui depois que você criar itens e começar a contar.</div>`; return; }
+  t.innerHTML = state.itens.map(i => `
+    <div class="tot-linha"><b>${esc(i.nome)}</b><span>${nf.format(i.total || 0)}</span></div>`).join("");
+}
+
+function renderHist(){
+  const h = $("#hist");
+  if(!state.hist.length){ h.innerHTML = `<div class="vazio">Nenhuma contagem registrada.</div>`; return; }
+  h.innerHTML = state.hist.map(c => `
+    <div class="hist">
+      <div class="l"><b>${esc(c.itemNome)}</b><small>${esc(c.contador || "sem nome")} · ${dataBR(c.ts)}</small></div>
+      <div class="q">+${nf.format(c.qtd)}</div>
+      <button data-desfazer="${c.id}">Desfazer</button>
+    </div>`).join("");
+}
+
+/* ---------- ações ---------- */
+async function somar(id){
+  const input = document.querySelector(`[data-input="${id}"]`);
+  const qtd = parseInt(input.value, 10);
+  if(!qtd || qtd < 1){ toast("Digite uma quantidade maior que zero"); input.focus(); return; }
+  const item = state.itens.find(i => i.id === id);
+  const batch = writeBatch(db);
+  batch.update(doc(itensRef, id), { total: increment(qtd) });
+  batch.set(doc(contRef), { itemId: id, itemNome: item.nome, qtd, contador: quem(), ts: serverTimestamp() });
+  delete state.rascunho[id];
+  input.value = "";
+  if(navigator.vibrate) navigator.vibrate(30);
+  toast(`+${nf.format(qtd)} em ${item.nome}`);
+  try { await batch.commit(); } catch(e){ erro(e); }
+}
+
+async function novoItem(){
+  const nome = (prompt("Nome do novo item:\n(ex.: Ovo branco grande, Caixa 30 dúzias)") || "").trim();
+  if(!nome) return;
+  if(state.itens.some(i => i.nome.toLowerCase() === nome.toLowerCase())){ toast("Esse item já existe"); return; }
+  try{
+    const batch = writeBatch(db);
+    batch.set(doc(itensRef), { nome, total: 0, criadoEm: serverTimestamp() });
+    await batch.commit();
+    toast("Item criado");
+  }catch(e){ erro(e); }
+}
+
+async function renomear(id){
+  const item = state.itens.find(i => i.id === id);
+  const nome = (prompt("Novo nome:", item.nome) || "").trim();
+  if(!nome || nome === item.nome) return;
+  try{
+    const batch = writeBatch(db);
+    batch.update(doc(itensRef, id), { nome });
+    await batch.commit();
+    toast("Nome alterado");
+  }catch(e){ erro(e); }
+}
+
+async function apagarContagensDoItem(id){
+  const snap = await getDocs(query(contRef, where("itemId","==",id)));
+  for(let i = 0; i < snap.docs.length; i += 400){
+    const b = writeBatch(db);
+    snap.docs.slice(i, i + 400).forEach(d => b.delete(d.ref));
+    await b.commit();
+  }
+}
+
+async function excluir(id){
+  const item = state.itens.find(i => i.id === id);
+  if(!confirm(`Excluir “${item.nome}” e todo o histórico dele?\nTotal atual: ${nf.format(item.total || 0)}`)) return;
+  try{
+    await apagarContagensDoItem(id);
+    const b = writeBatch(db); b.delete(doc(itensRef, id)); await b.commit();
+    toast("Item excluído");
+  }catch(e){ erro(e); }
+}
+
+async function desfazer(cid){
+  const c = state.hist.find(x => x.id === cid);
+  if(!c) return;
+  if(!confirm(`Desfazer +${nf.format(c.qtd)} em “${c.itemNome}”?`)) return;
+  try{
+    const b = writeBatch(db);
+    b.delete(doc(contRef, cid));
+    if(state.itens.some(i => i.id === c.itemId)) b.update(doc(itensRef, c.itemId), { total: increment(-c.qtd) });
+    await b.commit();
+    toast("Contagem desfeita");
+  }catch(e){ erro(e); }
+}
+
+async function zerarTudo(){
+  if(!state.itens.length) return;
+  if(!confirm("Zerar o total de TODOS os itens e apagar o histórico?\nUse só quando começar uma nova contagem.")) return;
+  if(!confirm("Tem certeza? Isso não pode ser desfeito.")) return;
+  try{
+    const b = writeBatch(db);
+    state.itens.forEach(i => b.update(doc(itensRef, i.id), { total: 0 }));
+    await b.commit();
+    const snap = await getDocs(contRef);
+    for(let i = 0; i < snap.docs.length; i += 400){
+      const bb = writeBatch(db);
+      snap.docs.slice(i, i + 400).forEach(d => bb.delete(d.ref));
+      await bb.commit();
+    }
+    toast("Contagem zerada");
+  }catch(e){ erro(e); }
+}
+
+async function copiarTotais(){
+  if(!state.itens.length){ toast("Nada para copiar"); return; }
+  const hoje = new Date().toLocaleDateString("pt-BR");
+  const txt = `Contagem ${hoje}\n\n` + state.itens.map(i => `${i.nome}: ${nf.format(i.total || 0)}`).join("\n");
+  try{ await navigator.clipboard.writeText(txt); toast("Totais copiados"); }
+  catch{ prompt("Copie o texto abaixo:", txt); }
+}
+
+/* ---------- eventos ---------- */
+$("#lista").addEventListener("click", (e) => {
+  const t = e.target.closest("button"); if(!t) return;
+  if(t.dataset.somar) somar(t.dataset.somar);
+  else if(t.dataset.atalho){
+    const inp = document.querySelector(`[data-input="${t.dataset.atalho}"]`);
+    const novo = (parseInt(inp.value, 10) || 0) + parseInt(t.dataset.v, 10);
+    inp.value = novo; state.rascunho[t.dataset.atalho] = novo;
+  }
+  else if(t.dataset.renomear) renomear(t.dataset.renomear);
+  else if(t.dataset.excluir) excluir(t.dataset.excluir);
+});
+$("#lista").addEventListener("input", (e) => {
+  if(e.target.dataset.input) state.rascunho[e.target.dataset.input] = e.target.value;
+});
+$("#lista").addEventListener("keydown", (e) => {
+  if(e.key === "Enter" && e.target.dataset.input) somar(e.target.dataset.input);
+});
+$("#hist").addEventListener("click", (e) => {
+  const t = e.target.closest("button"); if(t && t.dataset.desfazer) desfazer(t.dataset.desfazer);
+});
+$("#busca").addEventListener("input", () => { state.sigLista = ""; renderLista(); });
+$("#btnNovo").addEventListener("click", novoItem);
+$("#btnCopiar").addEventListener("click", copiarTotais);
+$("#btnZerar").addEventListener("click", zerarTudo);
+$("#btnQuem").addEventListener("click", () => {
+  const n = prompt("Seu nome (aparece no histórico):", quem());
+  if(n !== null){ localStorage.setItem("contador_nome", n.trim()); atualizaQuem(); }
+});
+
+atualizaQuem();
+if(!quem()) setTimeout(() => $("#btnQuem").click(), 400);
+</script>
+</body>
+</html>
