@@ -19,85 +19,124 @@
     --corpo:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   }
   @media (prefers-color-scheme:dark){
-    :root{ --fundo:#0f1a15; --cartao:#17251f; --texto:#eaf1ec; --suave:#9db0a5; --linha:#27392f; --gema-fundo:#3a3210; --verde:#123628; }
+    :root{ --fundo:#0f1a15; --cartao:#17251f; --texto:#eaf1ec; --suave:#9db0a5; --linha:#27392f; --gema-fundo:#3a3210; --verde:#123628; --verde-2:#f2b705; }
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%;touch-action:manipulation}
   html,body{margin:0;background:var(--fundo);color:var(--texto);font-family:var(--corpo);font-size:16px}
-  body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-  header{
-    background:var(--verde);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;
-    position:sticky;top:0;z-index:10;
-  }
-  header h1{margin:0;font:800 22px/1.1 var(--titulo);letter-spacing:-.01em}
-  header .sub{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:13px;opacity:.9}
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom));overscroll-behavior-y:contain}
+  button,input{font-family:inherit}
+  button{touch-action:manipulation;min-height:44px;cursor:pointer}
+
+  header{background:var(--verde);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;position:sticky;top:0;z-index:10}
+  header h1{margin:0;font:800 20px/1.1 var(--titulo);letter-spacing:-.01em}
+  header .sub{display:flex;align-items:center;justify-content:space-between;margin-top:4px;font-size:12px;opacity:.92}
   .status{display:inline-flex;align-items:center;gap:6px}
   .status i{width:9px;height:9px;border-radius:50%;background:#e0a39a;display:inline-block}
   .status.on i{background:#7ee2a8}
-  .quem{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:999px;padding:6px 12px;font:500 13px var(--corpo)}
-  main{padding:14px 14px 0;max-width:640px;margin:0 auto}
-  .busca{display:flex;gap:8px;margin-bottom:12px}
-  input,button{font-family:inherit}
-  .campo{
-    width:100%;border:1.5px solid var(--linha);background:var(--cartao);color:var(--texto);
-    border-radius:12px;padding:13px 14px;font-size:16px;outline:none
-  }
+  .quem{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:999px;padding:4px 10px;font:500 12px var(--corpo);min-height:32px;max-width:55vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  main{padding:12px 12px 0;max-width:640px;margin:0 auto}
+  .campo{width:100%;min-width:0;border:1.5px solid var(--linha);background:var(--cartao);color:var(--texto);border-radius:12px;padding:13px 14px;font-size:16px;outline:none}
   .campo:focus{border-color:var(--verde-2);box-shadow:0 0 0 3px rgba(44,107,84,.18)}
-  .btn{border:0;border-radius:12px;padding:13px 16px;font:700 15px var(--corpo);cursor:pointer}
+  .btn{border:0;border-radius:12px;padding:13px 16px;font:700 15px var(--corpo)}
   .btn.primario{background:var(--gema);color:#2a2100}
   .btn.verde{background:var(--verde);color:#fff}
   .btn.suave{background:transparent;color:var(--suave);border:1.5px solid var(--linha)}
   .btn.perigo{background:transparent;color:var(--perigo);border:1.5px solid var(--perigo)}
+  .btn.perigoCheio{background:var(--perigo);color:#fff}
   .btn:active{transform:scale(.98)}
-  .item{background:var(--cartao);border:1px solid var(--linha);border-radius:16px;padding:14px;margin-bottom:12px}
-  .item-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-  .item-nome{font:700 18px/1.2 var(--titulo);word-break:break-word}
-  .item-total{font:800 34px/1 var(--titulo);color:var(--verde-2);text-align:right;transition:color .2s}
-  @media (prefers-color-scheme:dark){.item-total{color:var(--gema)}}
-  .item-total small{display:block;font:500 11px var(--corpo);color:var(--suave);margin-top:2px}
-  .item-total.flash{color:var(--gema)}
-  .entrada{display:flex;gap:8px;margin-top:12px}
-  .entrada .campo{font-size:20px;font-weight:600;text-align:center;padding:12px 8px}
-  .entrada .btn{white-space:nowrap;min-width:104px}
-  .atalhos{display:flex;gap:8px;margin-top:8px}
-  .atalhos button{flex:1;border:1.5px solid var(--linha);background:var(--gema-fundo);color:var(--texto);border-radius:10px;padding:9px 0;font:600 14px var(--corpo)}
-  .mais{margin-top:10px;display:flex;gap:14px}
-  .mais button{background:none;border:0;color:var(--suave);font:500 13px var(--corpo);padding:4px 0;text-decoration:underline}
+  .busca{display:flex;gap:6px;margin-bottom:10px}
+  .busca .btn{white-space:nowrap;padding:12px}
+
+  .chips{display:flex;gap:8px;overflow-x:auto;margin:0 -12px 6px;padding:2px 12px 8px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;border:1.5px solid var(--linha);background:var(--cartao);color:var(--texto);border-radius:999px;padding:0 16px;min-height:42px;font:600 14px var(--corpo)}
+  .chip.on{background:var(--verde);color:#fff;border-color:var(--verde)}
+
+  .grupo{font:800 12px var(--corpo);letter-spacing:.08em;text-transform:uppercase;color:var(--suave);margin:16px 4px 8px}
+  .li{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;background:var(--cartao);border:1px solid var(--linha);border-left:5px solid var(--linha);border-radius:14px;padding:10px 12px;margin-bottom:8px;color:var(--texto);min-height:64px}
+  .li.feito{border-left-color:var(--gema)}
+  .li.sc,.tot-linha.sc{grid-template-columns:1fr auto}
+  .cd{display:block;font:500 11px var(--corpo);color:var(--suave);margin-top:2px}
+  .li:active{transform:scale(.99)}
+  .li .cod{font:700 13px var(--titulo);color:var(--suave);text-align:center}
+  .li .nm{font:600 14px/1.25 var(--corpo);word-break:break-word}
+  .li .tt{font:800 22px var(--titulo);color:var(--verde-2);text-align:right}
+  .li .tt.zero{color:var(--suave);opacity:.45}
+  .li .tt2{display:flex;flex-direction:column;gap:1px;text-align:right}
+  .li .tt2 span{font:800 16px var(--titulo);color:var(--verde-2)}
+  .li .tt2 span.zero{color:var(--suave);opacity:.45}
+  .li .tt2 i{font:600 10px var(--corpo);font-style:normal;color:var(--suave);margin-right:5px;letter-spacing:.04em}
   .vazio{text-align:center;color:var(--suave);padding:36px 16px;line-height:1.5}
-  .tot-linha{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;background:var(--cartao);border:1px solid var(--linha);border-radius:14px;margin-bottom:8px}
-  .tot-linha b{font:700 17px var(--titulo);word-break:break-word}
-  .tot-linha span{font:800 26px var(--titulo);color:var(--verde-2)}
-  @media (prefers-color-scheme:dark){.tot-linha span{color:var(--gema)}}
-  .resumo{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 12px;color:var(--suave);font-size:14px}
+
+  .resumo{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:2px 2px 10px;color:var(--suave);font-size:14px}
+  .tot-linha{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:10px 12px;background:var(--cartao);border:1px solid var(--linha);border-radius:14px;margin-bottom:8px}
+  .tot-linha .cod{font:700 13px var(--titulo);color:var(--suave);text-align:center}
+  .tot-linha b{font:600 14px/1.25 var(--corpo);word-break:break-word}
+  .tot-linha .v{text-align:right;font:800 20px var(--titulo);color:var(--verde-2);white-space:nowrap}
+  .tot-linha .v small{display:block;font:600 11px var(--corpo);color:var(--suave)}
   .acoes{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-  .acoes .btn{flex:1;min-width:140px}
-  .hist{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:var(--cartao);border:1px solid var(--linha);border-radius:14px;margin-bottom:8px}
+  .acoes .btn{flex:1;min-width:0}
+
+  .hist{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;background:var(--cartao);border:1px solid var(--linha);border-radius:14px;margin-bottom:8px}
   .hist .l{min-width:0}
-  .hist .l b{display:block;font-weight:600;word-break:break-word}
-  .hist .l small{color:var(--suave);font-size:12px}
-  .hist .q{font:800 20px var(--titulo);color:var(--verde-2)}
-  @media (prefers-color-scheme:dark){.hist .q{color:var(--gema)}}
+  .hist .l b{display:block;font:600 14px/1.25 var(--corpo);word-break:break-word}
+  .hist .l small{color:var(--suave);font-size:12px;line-height:1.35;display:block;margin-top:2px}
+  .hist .q{font:800 20px var(--titulo);color:var(--verde-2);white-space:nowrap}
   .hist button{border:1.5px solid var(--linha);background:transparent;color:var(--perigo);border-radius:10px;padding:8px 10px;font:600 12px var(--corpo)}
-  nav{
-    position:fixed;left:0;right:0;bottom:0;background:var(--cartao);border-top:1px solid var(--linha);
-    display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:20
-  }
-  nav button{flex:1;border:0;background:none;padding:12px 4px 10px;color:var(--suave);font:600 13px var(--corpo);display:flex;flex-direction:column;align-items:center;gap:3px}
+
+  nav{position:fixed;left:0;right:0;bottom:0;background:var(--cartao);border-top:1px solid var(--linha);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:20}
+  nav button{flex:1;border:0;background:none;padding:10px 4px 8px;color:var(--suave);font:600 12px var(--corpo);display:flex;flex-direction:column;align-items:center;gap:3px}
   nav button svg{width:22px;height:22px}
   nav button.ativo{color:var(--verde-2);box-shadow:inset 0 3px 0 var(--gema)}
-  @media (prefers-color-scheme:dark){nav button.ativo{color:var(--gema)}}
   .aba{display:none}.aba.ativa{display:block}
-  #toast{
-    position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
-    background:#17231d;color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;
-    transition:.25s;z-index:30;max-width:88vw;text-align:center
-  }
+
+  #toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));transform:translate(-50%,-20px);background:#17231d;color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:88vw;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
   #toast.mostra{opacity:1;transform:translate(-50%,0)}
   #aviso{display:none;background:#fde8e4;color:#7a1f14;padding:12px 14px;border-radius:12px;margin-bottom:12px;font-size:14px;line-height:1.45}
-  html{-webkit-text-size-adjust:100%;touch-action:manipulation}
-  body{overscroll-behavior-y:contain}
-  .campo{min-width:0}
-  button{touch-action:manipulation;min-height:44px}
-  .btn.perigoCheio{background:var(--perigo);color:#fff}
+
+  /* ---------- tela de contagem do item ---------- */
+  #folha{position:fixed;inset:0;background:var(--fundo);z-index:40;display:none;flex-direction:column}
+  #folha.aberta{display:flex;animation:sobe .2s ease-out}
+  @keyframes sobe{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+  .f-topo{background:var(--verde);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 10px 12px 14px;display:flex;gap:10px;align-items:flex-start}
+  .f-topo .t{flex:1;min-width:0}
+  .f-topo small{display:block;opacity:.85;font-size:12px;margin-bottom:2px}
+  .f-topo h2{margin:0;font:800 18px/1.2 var(--titulo);word-break:break-word}
+  .f-topo .x{flex:none;width:44px;height:44px;border:0;border-radius:12px;background:rgba(255,255,255,.16);color:#fff;font-size:22px;line-height:1}
+  .f-corpo{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch}
+  .f-rodape{background:var(--cartao);border-top:1px solid var(--linha);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px}
+  .f-tot{flex:none;min-width:96px}
+  .f-tot small{display:block;color:var(--suave);font-size:12px}
+  .f-tot b{font:800 28px/1.05 var(--titulo);color:var(--verde-2)}
+  .f-rodape .btn{flex:1;font-size:17px;padding:15px 12px}
+  .f-rodape .btn:disabled{opacity:.4}
+
+  .abas-campo{display:flex;gap:8px;margin-bottom:12px}
+  .abas-campo button{flex:1;border:1.5px solid var(--linha);background:var(--cartao);color:var(--texto);border-radius:14px;padding:8px;display:flex;flex-direction:column;align-items:center;font:700 15px var(--corpo)}
+  .abas-campo button small{font:600 12px var(--corpo);color:var(--suave)}
+  .abas-campo button.on{background:var(--verde);border-color:var(--verde);color:#fff}
+  .abas-campo button.on small{color:rgba(255,255,255,.85)}
+  .atual{display:flex;justify-content:space-between;align-items:baseline;background:var(--gema-fundo);border-radius:14px;padding:12px 14px;margin-bottom:12px;font-size:14px;color:var(--texto)}
+  .atual b{font:800 26px var(--titulo)}
+
+  .lin{background:var(--cartao);border:1px solid var(--linha);border-radius:16px;padding:12px;margin-bottom:10px}
+  .lin-t{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .lin-t b{font:700 16px/1.2 var(--titulo)}
+  .lin-t small{display:block;color:var(--suave);font:500 12px/1.3 var(--corpo);margin-top:2px}
+  .lin-sub{font:800 18px var(--titulo);color:var(--verde-2);white-space:nowrap}
+  .lin-sub.zero{color:var(--suave);opacity:.45}
+  .step{display:grid;grid-template-columns:56px 1fr 56px;gap:8px;margin-top:10px}
+  .step button{border:1.5px solid var(--linha);background:var(--gema-fundo);color:var(--texto);border-radius:12px;font:700 28px var(--corpo);min-height:54px;padding:0}
+  .step input{text-align:center;font:800 26px var(--titulo);padding:8px 4px;min-height:54px}
+  .livre{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-top:10px}
+  .livre .mult{font:700 22px var(--titulo);color:var(--suave)}
+  .livre input{text-align:center;font:800 22px var(--titulo);min-height:54px;padding:8px 4px}
+  .f-links{display:flex;gap:16px;margin:18px 2px 6px}
+  .f-links button{background:none;border:0;color:var(--suave);font:500 13px var(--corpo);text-decoration:underline;min-height:36px}
+
+  /* ---------- janelas de pergunta ---------- */
   #modal{position:fixed;inset:0;background:rgba(10,20,15,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
   #modal.aberto{display:flex}
   #modal .caixa{background:var(--cartao);color:var(--texto);border-radius:20px;padding:20px;width:100%;max-width:360px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
@@ -106,29 +145,7 @@
   #modal .campo{margin-bottom:14px}
   #modal .mbtns{display:flex;gap:10px}
   #modal .mbtns .btn{flex:1}
-  /* ajuste fino para telas de ~360px (Galaxy S20) */
-  @media (max-width:400px){
-    header{padding:calc(10px + env(safe-area-inset-top)) 14px 10px}
-    header h1{font-size:20px}
-    header .sub{margin-top:4px;font-size:12px}
-    .quem{padding:4px 10px;font-size:12px;min-height:32px;max-width:55vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    main{padding:12px 12px 0}
-    .busca{gap:6px}
-    .busca .btn{padding:12px 12px;font-size:14px;white-space:nowrap}
-    .item{padding:12px;border-radius:14px;margin-bottom:10px}
-    .item-nome{font-size:17px}
-    .item-total{font-size:30px}
-    .entrada .campo{font-size:20px;padding:11px 6px}
-    .entrada .btn{min-width:96px;padding:12px}
-    .atalhos button{font-size:14px;padding:10px 0}
-    .tot-linha{padding:12px}
-    .tot-linha b{font-size:16px}
-    .tot-linha span{font-size:24px}
-    .acoes .btn{min-width:0}
-    .hist{padding:10px 12px}
-    nav button{padding:10px 4px 8px;font-size:12px}
-  }
-  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -147,18 +164,22 @@
   <!-- CONTAR -->
   <section class="aba ativa" id="aba-contar">
     <div class="busca">
-      <input class="campo" id="busca" type="search" placeholder="Buscar item…" autocomplete="off">
-      <button class="btn primario" id="btnNovo">+ Novo item</button>
+      <input class="campo" id="busca" type="search" placeholder="Buscar por código ou nome…" autocomplete="off">
+      <button class="btn primario" id="btnNovo">+ Item</button>
     </div>
+    <div class="chips" id="chips"></div>
     <div id="lista"></div>
   </section>
 
   <!-- TOTAIS -->
   <section class="aba" id="aba-totais">
-    <div class="resumo"><span id="resumoTxt"></span></div>
+    <div class="resumo"><span id="resumoTxt"></span><button class="chip" id="btnSoContados"></button></div>
     <div id="totais"></div>
     <div class="acoes">
-      <button class="btn verde" id="btnCopiar">Copiar totais</button>
+      <button class="btn verde" id="btnCopiar">Copiar</button>
+      <button class="btn verde" id="btnCSV">Baixar planilha</button>
+    </div>
+    <div class="acoes">
       <button class="btn perigo" id="btnZerar">Zerar tudo</button>
     </div>
   </section>
@@ -181,6 +202,20 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Histórico
   </button>
 </nav>
+
+<!-- tela de contagem de um item -->
+<div id="folha" role="dialog" aria-modal="true">
+  <div class="f-topo">
+    <div class="t"><small id="fCod"></small><h2 id="fTitulo"></h2></div>
+    <button class="x" id="fFechar" aria-label="Fechar">✕</button>
+  </div>
+  <div class="f-corpo" id="fCorpo"></div>
+  <div class="f-rodape">
+    <div class="f-tot"><small>Esta contagem</small><b id="fTot">0</b></div>
+    <button class="btn primario" id="fSomar" disabled>Somar ao total</button>
+  </div>
+</div>
+
 <div id="toast"></div>
 <div id="modal"></div>
 
@@ -200,18 +235,127 @@ const firebaseConfig = {
   appId: "1:36451856648:web:879472eee5c15352e5bcbd",
   measurementId: "G-46H3NG6BGB"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const itensRef = collection(db, "itens");
 const contRef = collection(db, "contagens");
 
-const $ = (s) => document.querySelector(s);
-const state = { itens: [], hist: [], rascunho: {}, sigLista: "" };
-const nf = new Intl.NumberFormat("pt-BR");
-const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+/* =====================================================================
+   CATÁLOGO DA COOPERATIVA
+   (inventário de ovos + embalagens vazias + mapa de produtos no estoque)
+   L(rótulo, detalhe, fator): cada linha multiplica a quantidade digitada pelo fator.
+   ===================================================================== */
+const L = (r, d, f) => ({ r, d, f });
 
-/* ---------- utilidades ---------- */
+const CAMPOS_OVO = [
+  { id:"cx",  rotulo:"Caixas", linhas:[ L("Caixas", "contagem direta", 1) ] },
+  { id:"bdj", rotulo:"Bdj/Est", linhas:[ L("Bandejas / estojos", "contagem direta", 1) ] }
+];
+const ovo = (cod, grupo, cat, nome) => ({ id:"ov" + (cod || "Trinc"), cod:String(cod || ""), nome, grupo, cat, campos:CAMPOS_OVO, unid:"" });
+const emb = (id, cod, grupo, nome, unid, linhas) => ({ id, cod:String(cod || ""), nome, grupo, cat:"emb", campos:[{ id:"q", rotulo:"Quantidade", linhas:linhas || [] }], unid });
+
+const CX_30 = [
+  L("Palete", "Jaepel · 300 caixas", 300),
+  L("Palete", "Smurfit Westrock · 250 caixas", 250),
+  L("Fardo", "Smurfit Westrock · 25 caixas", 25)
+];
+const CX_PLAST = [
+  L("Palete", "Bragagnolo · 280 caixas", 280),
+  L("Palete", "Jaepel · 300 caixas", 300),
+  L("Palete", "Smurfit Westrock · 250 caixas", 250),
+  L("Fardo", "Smurfit Westrock · 25 caixas", 25)
+];
+const BAND_30 = [ L("Palete", "25 fardos · 3.500 un", 3500), L("Fardo", "Sanovo / Rio Bonito · 140 un", 140) ];
+const BAND_20 = [
+  L("Palete T25", "Sanovo · 25 fardos · 2.750 un", 2750), L("Fardo T25", "110 un", 110),
+  L("Palete POJ", "Sanovo · 25 fardos · 3.000 un", 3000), L("Fardo POJ", "120 un", 120)
+];
+const ESTOJO_DZ = [ L("Palete", "Sanovo · 40 fardos · 4.800 un", 4800), L("Fardo", "120 un", 120) ];
+const TAMPA = [
+  L("Palete Ovopack", "36 caixas · 50.400 un", 50400), L("Caixa Ovopack", "1.400 un", 1400),
+  L("Palete DCPACK", "30 caixas · 30.000 un", 30000), L("Caixa DCPACK", "1.000 un", 1000)
+];
+
+const CATALOGO = [
+  // ---- OVOS BRANCOS
+  ovo(6,  "OVOS BRANCOS", "branco", "OVO BRANCO S-JUMBO CX"),
+  ovo(59, "OVOS BRANCOS", "branco", "OVO BRANCO JUMBO PLASTICO BDJ 20 UND"),
+  ovo(22, "OVOS BRANCOS", "branco", "OVO BRANCO EXTRA GRANEL CX COM 30DZ"),
+  ovo(40, "OVOS BRANCOS", "branco", "OVO BRANCO EXTRA GRANEL CX COM 15DZ"),
+  ovo(35, "OVOS BRANCOS", "branco", "OVO BRANCO EXTRA PLASTIFICADO BDJ 20 UND"),
+  ovo(52, "OVOS BRANCOS", "branco", "OVO BRANCO GRANDE ESTOJO 1DZ CX COM 30DZ"),
+  ovo(61, "OVOS BRANCOS", "branco", "OVO BRANCO GRANDE ESTOJO 1,5DZ CX COM 30DZ"),
+  ovo(20, "OVOS BRANCOS", "branco", "OVO BRANCO GRANDE GRANEL 30DZ"),
+  ovo(41, "OVOS BRANCOS", "branco", "OVO BRANCO GRANDE GRANEL 15DZ"),
+  ovo(32, "OVOS BRANCOS", "branco", "OVO BRANCO GRANDE PLASTIFICADO BDJ 30 UND"),
+  ovo(30, "OVOS BRANCOS", "branco", "OVO BRANCO GRANDE PLASTIFICADO BDJ 20 UND"),
+  ovo(21, "OVOS BRANCOS", "branco", "OVO BRANCO MEDIO GRANEL CX COM 30DZ"),
+  ovo(33, "OVOS BRANCOS", "branco", "OVO BRANCO MEDIO PLASTIFICADO BDJ 30 UND"),
+  ovo(63, "OVOS BRANCOS", "branco", "OVO BRANCO CASCA FINA INDUSTRIA"),
+  // ---- OVOS VERMELHOS
+  ovo(60, "OVOS VERMELHOS", "vermelho", "OVO VERMELHO JUMBO PLASTIFICADO BDJ 20 UND"),
+  ovo(23, "OVOS VERMELHOS", "vermelho", "OVO VERMELHO EXTRA GRANEL CX COM 30DZ"),
+  ovo(37, "OVOS VERMELHOS", "vermelho", "OVO VERMELHO EXTRA PLASTIFICADO BDJ 20 UND"),
+  ovo(53, "OVOS VERMELHOS", "vermelho", "OVO VERMELHO GRANDE ESTOJO 1DZ COM 30DZ CX"),
+  ovo(24, "OVOS VERMELHOS", "vermelho", "OVO VERMELHO GRANDE GRANEL CX 30DZ"),
+  ovo(34, "OVOS VERMELHOS", "vermelho", "OVO VERMELHO GRANDE PLASTIFICADO CX BDJ 30 UND"),
+  ovo(51, "OVOS VERMELHOS", "vermelho", "OVO VERMELHO GRANDE PLASTIFICADO CX 30DZ"),
+  ovo(25, "OVOS VERMELHOS", "vermelho", "OVO VERMELHO MEDIO GRANEL CX COM 30DZ"),
+  // ---- CODORNA / TRINCADO / AVES LIVRES
+  ovo(16, "OVOS DE CODORNA", "outros", "OVO CODORNA CX COM 50DZ"),
+  ovo(0,  "TRINCADO E BALDE", "outros", "TRINCADO"),
+  ovo(62, "TRINCADO E BALDE", "outros", "OVO LIQUIDO CONGELADO INDUSTRIA BALDE 18KG"),
+  ovo(43, "OVOS DE AVES LIVRES", "outros", "AVES LIVRES OVO JUMBO CX COM 20 ESTOJOS DE 10"),
+  ovo(44, "OVOS DE AVES LIVRES", "outros", "AVES LIVRES OVO EXTRA CX COM 20 ESTOJOS DE 10"),
+  ovo(45, "OVOS DE AVES LIVRES", "outros", "AVES LIVRES OVO GRANDE CX COM 20 ESTOJOS DE 10"),
+  ovo(46, "OVOS DE AVES LIVRES", "outros", "AVES LIVRES OVO MEDIO CX COM 20 ESTOJOS DE 10"),
+  // ---- EMBALAGENS VAZIAS
+  emb("em100033", 100033, "CAIXAS VAZIAS", "CAIXA GRANEL 30 DZ", "caixas", CX_30),
+  emb("em100027", 100027, "CAIXAS VAZIAS", "CAIXA ESTOJO 30 DZ", "caixas", CX_30),
+  emb("em100032", 100032, "CAIXAS VAZIAS", "CAIXA PLASTIFICADO 30 DZ", "caixas", CX_PLAST),
+  emb("em100025", 100025, "CAIXAS VAZIAS", "CAIXA GRANEL 15 DZ", "caixas", [ L("Palete", "Jaepel · 720 caixas", 720), L("Fardo", "Jaepel · 30 caixas", 30) ]),
+  emb("em100028", 100028, "CAIXAS VAZIAS", "CAIXA DE CODORNA", "caixas", [ L("Palete", "Jaepel · 500 caixas", 500) ]),
+  emb("em104076", 104076, "CAIXAS VAZIAS", "CAIXA AVES LIVRES 20x10", "caixas", [ L("Palete", "Jaepel · 375 caixas", 375) ]),
+  emb("em100147", 100147, "BANDEJAS E ESTOJOS VAZIOS", "BANDEJA POUPA 30 OVOS", "unidades", BAND_30),
+  emb("em100019", 100019, "BANDEJAS E ESTOJOS VAZIOS", "BANDEJA POUPA 20 OVOS", "unidades", BAND_20),
+  emb("em100080", 100080, "BANDEJAS E ESTOJOS VAZIOS", 'ESTOJO 1,0 DZ "GB"', "unidades", ESTOJO_DZ),
+  emb("em101098", 101098, "BANDEJAS E ESTOJOS VAZIOS", 'ESTOJO 1,0 DZ "GV"', "unidades", ESTOJO_DZ),
+  emb("emEst18",  "",     "BANDEJAS E ESTOJOS VAZIOS", "ESTOJO 18 OVOS (1,5 DZ)", "unidades", ESTOJO_DZ),
+  emb("em100092", 100092, "BANDEJAS E ESTOJOS VAZIOS", "ESTOJO PET CODORNA 30 OVOS", "unidades", [ L("Caixa Blister", "800 un", 800) ]),
+  emb("em104075", 104075, "BANDEJAS E ESTOJOS VAZIOS", "ESTOJO AVES LIVRES PET 10 OVOS", "unidades", [ L("Caixa Blister", "600 un", 600) ]),
+  emb("em100169", 100169, "TAMPAS", "TAMPA PET 30 OVOS", "unidades", TAMPA),
+  emb("em100170", 100170, "TAMPAS", "TAMPA PET 20 OVOS", "unidades", TAMPA),
+  emb("em100030", 100030, "FILMES E FITAS", "PELÍCULA PLÁSTICO - STRETCH", "unidades", []),
+  emb("em100148", 100148, "FILMES E FITAS", "FILME 480X15X2000 18KG", "caixas", [ L("Palete de 36 caixas", "Solupack", 36), L("Palete de 27 caixas", "Solupack", 27) ]),
+  emb("em100753", 100753, "FILMES E FITAS", "FITA ADESIVA CAIXA PEQUENA", "unidades", []),
+  emb("em104582", 104582, "FILMES E FITAS", "FITA ADESIVA CAIXA GRANDE", "unidades", []),
+  emb("em101101", 101101, "COUCHÉ E RIBBON", "COUCHE 30 OVOS CODORNA RL 3000", "unidades", []),
+  emb("em104068", 104068, "COUCHÉ E RIBBON", "COUCHE EXTRA CAIPIRA", "unidades", []),
+  emb("em104069", 104069, "COUCHÉ E RIBBON", "COUCHE GRANDE CAIPIRA", "unidades", []),
+  emb("em101102", 101102, "COUCHÉ E RIBBON", "COUCHE 20 OVOS BRANCO JUMBO 3000", "unidades", []),
+  emb("em100762", 100762, "COUCHÉ E RIBBON", "COUCHE 20 OVOS BRANCO EXTRA 3000", "unidades", []),
+  emb("em100761", 100761, "COUCHÉ E RIBBON", "COUCHE 30 OVOS BRANCO MEDIO 3000", "unidades", []),
+  emb("em101104", 101104, "COUCHÉ E RIBBON", "COUCHE 30 OVOS BRANCO GRANDE 3000", "unidades", []),
+  emb("em100748", 100748, "COUCHÉ E RIBBON", "RIBBON 110X74 CERA KURZ", "unidades", []),
+  emb("em102644", 102644, "COUCHÉ E RIBBON", "RIBBON 11X450 CERA KURZ", "unidades", [])
+];
+const CAT_IDS = new Set(CATALOGO.map(c => c.id));
+const FILTROS = [
+  { id:"todos", nome:"Todos" }, { id:"branco", nome:"Brancos" }, { id:"vermelho", nome:"Vermelhos" },
+  { id:"outros", nome:"Outros ovos" }, { id:"emb", nome:"Embalagens" }, { id:"novos", nome:"Novos" }
+];
+
+/* ---------- estado e utilidades ---------- */
+const $ = (s) => document.querySelector(s);
+const state = { docs:{}, hist:[], itens:[], filtro:"todos", busca:"", soContados:true };
+const folha = { id:null, campo:null, rasc:{} };
+const nf = new Intl.NumberFormat("pt-BR");
+const fmt = (n) => nf.format(n || 0);
+const num = (v) => parseInt(v, 10) || 0;
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const norm = (s) => String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
 let toastT;
 function toast(msg){
   const t = $("#toast"); t.textContent = msg; t.classList.add("mostra");
@@ -222,11 +366,10 @@ function atualizaQuem(){ $("#btnQuem").textContent = quem() ? "👤 " + quem() :
 function erro(e){
   console.error(e);
   const a = $("#aviso");
-  const permissao = e && (e.code === "permission-denied");
   a.style.display = "block";
-  a.innerHTML = permissao
-    ? "<b>O Firebase bloqueou o acesso.</b> No Console do Firebase, abra <b>Firestore Database → Regras</b> e libere leitura e escrita (veja as instruções que enviei junto com este arquivo)."
-    : "Não foi possível salvar/ler os dados: " + esc(e.message || e);
+  a.innerHTML = (e && e.code === "permission-denied")
+    ? "<b>O Firebase bloqueou o acesso.</b> No Console do Firebase, abra <b>Firestore Database → Regras</b> e libere leitura e escrita."
+    : "Não foi possível salvar/ler os dados: " + esc((e && e.message) || e);
 }
 function dataBR(ts){
   if(!ts) return "agora";
@@ -234,7 +377,7 @@ function dataBR(ts){
   return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}) + " " + d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
 }
 
-/* ---------- diálogo (substitui prompt/confirm) ---------- */
+/* ---------- diálogo ---------- */
 function dialogo({ titulo, texto = "", campo = false, valor = "", ok = "OK", perigo = false }){
   return new Promise(resolve => {
     const el = $("#modal");
@@ -260,6 +403,25 @@ function dialogo({ titulo, texto = "", campo = false, valor = "", ok = "OK", per
   });
 }
 
+/* ---------- itens (catálogo + itens novos criados no app) ---------- */
+function totalDe(item, campoId){
+  const d = state.docs[item.id] || {};
+  return ((d.totais && d.totais[campoId]) || 0) + (campoId === "q" ? (d.total || 0) : 0);
+}
+function montaItens(){
+  const cat = CATALOGO.map(c => ({ ...c }));
+  const novos = Object.entries(state.docs)
+    .filter(([id]) => !CAT_IDS.has(id))
+    .map(([id, d]) => ({
+      id, cod:"", nome:d.nome || "(sem nome)", grupo:"ITENS NOVOS", cat:"novos", custom:true,
+      campos:[{ id:"q", rotulo:"Quantidade", linhas:[] }], unid:"unidades"
+    }))
+    .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR", { sensitivity:"base" }));
+  state.itens = cat.concat(novos);
+}
+const itemPorId = (id) => state.itens.find(i => i.id === id);
+const feito = (i) => i.campos.some(c => totalDe(i, c.id) > 0);
+
 /* ---------- abas ---------- */
 document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll("nav button").forEach(x => x.classList.toggle("ativo", x === b));
@@ -269,12 +431,14 @@ document.querySelectorAll("nav button").forEach(b => b.addEventListener("click",
 
 /* ---------- tempo real ---------- */
 onSnapshot(itensRef, { includeMetadataChanges: true }, (snap) => {
-  state.itens = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-    .sort((a,b) => a.nome.localeCompare(b.nome, "pt-BR", { sensitivity:"base" }));
+  state.docs = {};
+  snap.docs.forEach(d => { state.docs[d.id] = d.data(); });
   const online = !snap.metadata.fromCache;
   $("#status").classList.toggle("on", online);
   $("#statusTxt").textContent = online ? "Sincronizado" : "Sem conexão";
+  montaItens();
   renderTudo();
+  if(folha.id) atualizaFolhaTotais();
 }, erro);
 
 onSnapshot(query(contRef, orderBy("ts","desc"), limit(100)), (snap) => {
@@ -282,205 +446,364 @@ onSnapshot(query(contRef, orderBy("ts","desc"), limit(100)), (snap) => {
   renderHist();
 }, erro);
 
-/* ---------- renderização ---------- */
-function renderTudo(){ renderLista(); renderTotais(); }
+/* ---------- lista "Contar" ---------- */
+function renderTudo(){ renderChips(); renderLista(); renderTotais(); }
+
+function renderChips(){
+  const temNovos = state.itens.some(i => i.custom);
+  $("#chips").innerHTML = FILTROS.filter(f => f.id !== "novos" || temNovos)
+    .map(f => `<button class="chip ${state.filtro === f.id ? "on" : ""}" data-filtro="${f.id}">${f.nome}</button>`).join("");
+}
+
+function itensVisiveis(somenteContados){
+  const q = norm(state.busca.trim());
+  return state.itens.filter(i =>
+    (state.filtro === "todos" || i.cat === state.filtro) &&
+    (!q || norm(i.cod + " " + i.nome + " " + i.grupo).includes(q)) &&
+    (!somenteContados || feito(i))
+  );
+}
+
+function valoresLista(i){
+  if(i.campos.length === 1){
+    const n = totalDe(i, i.campos[0].id);
+    return `<span class="tt ${n ? "" : "zero"}">${fmt(n)}</span>`;
+  }
+  const a = totalDe(i, i.campos[0].id), b = totalDe(i, i.campos[1].id);
+  return `<span class="tt2"><span class="${a ? "" : "zero"}"><i>CX</i>${fmt(a)}</span><span class="${b ? "" : "zero"}"><i>BDJ</i>${fmt(b)}</span></span>`;
+}
 
 function renderLista(){
-  const filtro = $("#busca").value.trim().toLowerCase();
-  const itens = state.itens.filter(i => i.nome.toLowerCase().includes(filtro));
-  const sig = itens.map(i => i.id + "|" + i.nome).join(";");
   const lista = $("#lista");
-
-  const focoNoInput = lista.contains(document.activeElement) && document.activeElement.tagName === "INPUT";
-  if(focoNoInput && sig === state.sigLista){
-    itens.forEach(i => {
-      const el = lista.querySelector(`[data-total="${i.id}"]`);
-      if(el) el.textContent = nf.format(i.total || 0);
-    });
+  const itens = itensVisiveis(false);
+  if(!itens.length){
+    lista.innerHTML = `<div class="vazio">${state.busca ? `Nenhum item encontrado para “${esc(state.busca)}”.` : "Nenhum item aqui ainda.<br>Toque em <b>+ Item</b> para criar um."}</div>`;
     return;
   }
-  state.sigLista = sig;
-
-  if(!state.itens.length){
-    lista.innerHTML = `<div class="vazio">Nenhum item ainda.<br>Toque em <b>+ Novo item</b> para criar o primeiro<br>(ex.: Ovo branco grande, Caixa 30 dúzias).</div>`;
-    return;
-  }
-  if(!itens.length){ lista.innerHTML = `<div class="vazio">Nenhum item encontrado para “${esc(filtro)}”.</div>`; return; }
-
-  lista.innerHTML = itens.map(i => `
-    <div class="item" data-id="${i.id}">
-      <div class="item-topo">
-        <div class="item-nome">${esc(i.nome)}</div>
-        <div class="item-total"><span data-total="${i.id}">${nf.format(i.total || 0)}</span><small>contados</small></div>
-      </div>
-      <div class="entrada">
-        <input class="campo" type="number" inputmode="numeric" pattern="[0-9]*" placeholder="Quantidade" data-input="${i.id}" value="${state.rascunho[i.id] ?? ""}">
-        <button class="btn verde" data-somar="${i.id}">Somar</button>
-      </div>
-      <div class="atalhos">
-        <button data-atalho="${i.id}" data-v="1">+1</button>
-        <button data-atalho="${i.id}" data-v="10">+10</button>
-        <button data-atalho="${i.id}" data-v="30">+30</button>
-        <button data-atalho="${i.id}" data-v="100">+100</button>
-      </div>
-      <div class="mais">
-        <button data-renomear="${i.id}">Renomear</button>
-        <button data-excluir="${i.id}">Excluir item</button>
-      </div>
-    </div>`).join("");
+  let html = "", g = "";
+  itens.forEach(i => {
+    if(i.grupo !== g){ g = i.grupo; html += `<div class="grupo">${esc(g)}</div>`; }
+    const curto = i.cod && i.cod.length <= 3;
+    html += `<button class="li ${feito(i) ? "feito" : ""} ${curto ? "" : "sc"}" data-abrir="${i.id}">
+      ${curto ? `<span class="cod">${esc(i.cod)}</span>` : ""}
+      <span class="nm">${esc(i.nome)}${!curto && i.cod ? `<span class="cd">cód. ${esc(i.cod)}</span>` : ""}</span>
+      ${valoresLista(i)}
+    </button>`;
+  });
+  lista.innerHTML = html;
 }
 
+/* ---------- totais ---------- */
+function valoresTexto(i){
+  return i.campos.length === 1
+    ? fmt(totalDe(i, i.campos[0].id)) + (i.unid ? " " + i.unid : "")
+    : `${fmt(totalDe(i, "cx"))} cx · ${fmt(totalDe(i, "bdj"))} bdj/est`;
+}
 function renderTotais(){
-  const t = $("#totais");
-  $("#resumoTxt").textContent = state.itens.length
-    ? `${state.itens.length} ${state.itens.length === 1 ? "item" : "itens"} cadastrados`
-    : "";
-  if(!state.itens.length){ t.innerHTML = `<div class="vazio">Os totais aparecem aqui depois que você criar itens e começar a contar.</div>`; return; }
-  t.innerHTML = state.itens.map(i => `
-    <div class="tot-linha"><b>${esc(i.nome)}</b><span>${nf.format(i.total || 0)}</span></div>`).join("");
+  const contados = state.itens.filter(feito).length;
+  $("#resumoTxt").textContent = `${contados} de ${state.itens.length} itens contados`;
+  $("#btnSoContados").textContent = state.soContados ? "Só contados ✓" : "Mostrar todos";
+  $("#btnSoContados").classList.toggle("on", state.soContados);
+  const itens = state.itens.filter(i => !state.soContados || feito(i));
+  if(!itens.length){ $("#totais").innerHTML = `<div class="vazio">Nada contado ainda.<br>Os totais aparecem aqui conforme vocês contam.</div>`; return; }
+  let html = "", g = "";
+  itens.forEach(i => {
+    if(i.grupo !== g){ g = i.grupo; html += `<div class="grupo">${esc(g)}</div>`; }
+    const v = i.campos.length === 1
+      ? `${fmt(totalDe(i, "q"))}<small>${esc(i.unid || "")}</small>`
+      : `${fmt(totalDe(i, "cx"))} <small>caixas</small>${fmt(totalDe(i, "bdj"))} <small>bdj/est</small>`;
+    const curto = i.cod && i.cod.length <= 3;
+    html += `<div class="tot-linha ${curto ? "" : "sc"}">${curto ? `<span class="cod">${esc(i.cod)}</span>` : ""}<b>${esc(i.nome)}${!curto && i.cod ? `<span class="cd">cód. ${esc(i.cod)}</span>` : ""}</b><span class="v">${v}</span></div>`;
+  });
+  $("#totais").innerHTML = html;
 }
 
+/* ---------- histórico ---------- */
 function renderHist(){
   const h = $("#hist");
   if(!state.hist.length){ h.innerHTML = `<div class="vazio">Nenhuma contagem registrada.</div>`; return; }
-  h.innerHTML = state.hist.map(c => `
-    <div class="hist">
-      <div class="l"><b>${esc(c.itemNome)}</b><small>${esc(c.contador || "sem nome")} · ${dataBR(c.ts)}</small></div>
-      <div class="q">+${nf.format(c.qtd)}</div>
+  h.innerHTML = state.hist.map(c => {
+    const det = c.detalhe && c.detalhe !== String(c.qtd) ? c.detalhe + " · " : "";
+    return `<div class="hist">
+      <div class="l"><b>${c.cod ? esc(c.cod) + " · " : ""}${esc(c.itemNome)}</b>
+        <small>${c.campoRotulo ? esc(c.campoRotulo) + " · " : ""}${esc(det)}${esc(c.contador || "sem nome")} · ${dataBR(c.ts)}</small></div>
+      <div class="q">+${fmt(c.qtd)}</div>
       <button data-desfazer="${c.id}">Desfazer</button>
-    </div>`).join("");
+    </div>`;
+  }).join("");
 }
 
-/* ---------- ações ---------- */
-async function somar(id){
-  const input = document.querySelector(`[data-input="${id}"]`);
-  const qtd = parseInt(input.value, 10);
-  if(!qtd || qtd < 1){ toast("Digite uma quantidade maior que zero"); input.focus(); return; }
-  const item = state.itens.find(i => i.id === id);
+/* =====================================================================
+   TELA DE CONTAGEM DO ITEM
+   ===================================================================== */
+function linhasDe(campo, item){
+  const ls = campo.linhas.slice();
+  if(!ls.some(l => l.f === 1)) ls.push(L(cap(item.unid || "unidades") + " soltas", "contagem direta", 1));
+  return ls;
+}
+function rascDe(campoId){ return folha.rasc[campoId] || (folha.rasc[campoId] = { v:{}, a:"", b:"" }); }
+function campoAtual(it){ return it.campos.find(c => c.id === folha.campo) || it.campos[0]; }
+
+function calcular(it, campo){
+  const d = rascDe(campo.id);
+  let total = 0; const partes = [];
+  linhasDe(campo, it).forEach((l, k) => {
+    const q = num(d.v[k]);
+    if(q){ total += q * l.f; partes.push(l.f === 1 ? String(q) : `${q}×${l.f}`); }
+  });
+  const a = num(d.a), b = num(d.b);
+  if(a && b){ total += a * b; partes.push(`${a}×${b}`); }
+  return { total, detalhe: partes.join(" + ") };
+}
+
+function abrirFolha(id){
+  const it = itemPorId(id); if(!it) return;
+  folha.id = id; folha.campo = it.campos[0].id; folha.rasc = {};
+  renderFolha();
+  $("#folha").classList.add("aberta");
+  $("#fCorpo").scrollTop = 0;
+  history.pushState({ folha:true }, "");
+}
+function fecharFolha(viaPop){
+  if(!folha.id) return;
+  $("#folha").classList.remove("aberta");
+  folha.id = null; folha.rasc = {};
+  if(!viaPop && history.state && history.state.folha) history.back();
+}
+window.addEventListener("popstate", () => { if(folha.id) fecharFolha(true); });
+
+function renderFolha(){
+  const it = itemPorId(folha.id); if(!it){ fecharFolha(); return; }
+  const campo = campoAtual(it); folha.campo = campo.id;
+  const d = rascDe(campo.id);
+  $("#fCod").textContent = it.cod ? "Código " + it.cod : it.grupo;
+  $("#fTitulo").textContent = it.nome;
+
+  let html = "";
+  if(it.campos.length > 1){
+    html += `<div class="abas-campo">` + it.campos.map(c =>
+      `<button data-campo="${c.id}" class="${c.id === campo.id ? "on" : ""}">${esc(c.rotulo)}<small data-tab-total="${c.id}">${fmt(totalDe(it, c.id))} contados</small></button>`
+    ).join("") + `</div>`;
+  }
+  html += `<div class="atual"><span>Já contado${it.campos.length > 1 ? " em " + esc(campo.rotulo) : ""}</span><b id="fAtual">${fmt(totalDe(it, campo.id))}</b></div>`;
+
+  linhasDe(campo, it).forEach((l, k) => {
+    html += `<div class="lin" data-k="${k}">
+      <div class="lin-t"><div><b>${esc(l.r)}</b><small>${esc(l.f === 1 ? l.d : l.d + " · × " + fmt(l.f))}</small></div><div class="lin-sub zero" data-sub>—</div></div>
+      <div class="step">
+        <button data-passo="-1" aria-label="Menos um">−</button>
+        <input class="campo" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="0" data-q value="${esc(d.v[k] ?? "")}">
+        <button data-passo="1" aria-label="Mais um">+</button>
+      </div>
+    </div>`;
+  });
+
+  html += `<div class="lin">
+    <div class="lin-t"><div><b>Outra conta</b><small>quantidade × quanto tem em cada (ex.: 5 paletes × 56 caixas)</small></div><div class="lin-sub zero" data-sub-livre>—</div></div>
+    <div class="livre">
+      <input class="campo" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Qtd" data-livre="a" value="${esc(d.a)}">
+      <span class="mult">×</span>
+      <input class="campo" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Cada" data-livre="b" value="${esc(d.b)}">
+    </div>
+  </div>`;
+
+  if(it.custom) html += `<div class="f-links"><button data-renomear>Renomear item</button><button data-excluir>Excluir item</button></div>`;
+  $("#fCorpo").innerHTML = html;
+  atualizaCalc();
+}
+
+function atualizaCalc(){
+  const it = itemPorId(folha.id); if(!it) return;
+  const campo = campoAtual(it), d = rascDe(campo.id), ls = linhasDe(campo, it);
+  document.querySelectorAll("#fCorpo .lin[data-k]").forEach(el => {
+    const k = +el.dataset.k, q = num(d.v[k]), s = el.querySelector("[data-sub]");
+    s.textContent = q ? "= " + fmt(q * ls[k].f) : "—";
+    s.classList.toggle("zero", !q);
+  });
+  const a = num(d.a), b = num(d.b), sl = $("#fCorpo [data-sub-livre]");
+  if(sl){ sl.textContent = a && b ? "= " + fmt(a * b) : "—"; sl.classList.toggle("zero", !(a && b)); }
+  const { total } = calcular(it, campo);
+  $("#fTot").textContent = fmt(total);
+  $("#fSomar").disabled = !total;
+}
+function atualizaFolhaTotais(){
+  const it = itemPorId(folha.id); if(!it) return;
+  const campo = campoAtual(it);
+  const f = $("#fAtual"); if(f) f.textContent = fmt(totalDe(it, campo.id));
+  document.querySelectorAll("[data-tab-total]").forEach(el => { el.textContent = fmt(totalDe(it, el.dataset.tabTotal)) + " contados"; });
+}
+
+async function somarFolha(){
+  const it = itemPorId(folha.id); if(!it) return;
+  const campo = campoAtual(it);
+  const { total, detalhe } = calcular(it, campo);
+  if(!total){ toast("Preencha alguma quantidade"); return; }
   const batch = writeBatch(db);
-  batch.update(doc(itensRef, id), { total: increment(qtd) });
-  batch.set(doc(contRef), { itemId: id, itemNome: item.nome, qtd, contador: quem(), ts: serverTimestamp() });
-  delete state.rascunho[id];
-  input.value = "";
+  batch.set(doc(itensRef, it.id), { totais:{ [campo.id]: increment(total) } }, { merge:true });
+  batch.set(doc(contRef), {
+    itemId:it.id, itemNome:it.nome, cod:it.cod, campo:campo.id,
+    campoRotulo: it.campos.length > 1 ? campo.rotulo : "",
+    qtd:total, detalhe, contador:quem(), ts:serverTimestamp()
+  });
+  delete folha.rasc[campo.id];
+  renderFolha();
   if(navigator.vibrate) navigator.vibrate(30);
-  toast(`+${nf.format(qtd)} em ${item.nome}`);
-  try { await batch.commit(); } catch(e){ erro(e); }
+  toast(`+${fmt(total)} somados`);
+  try{ await batch.commit(); }catch(e){ erro(e); }
 }
 
+/* eventos da tela de contagem */
+$("#fCorpo").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if(!b) return;
+  const it = itemPorId(folha.id); if(!it) return;
+  if(b.dataset.campo){ folha.campo = b.dataset.campo; renderFolha(); return; }
+  if(b.dataset.passo){
+    const lin = b.closest(".lin"), k = +lin.dataset.k, inp = lin.querySelector("input");
+    const novo = Math.max(0, num(inp.value) + num(b.dataset.passo));
+    inp.value = novo || "";
+    rascDe(folha.campo).v[k] = inp.value;
+    atualizaCalc(); return;
+  }
+  if(b.hasAttribute("data-renomear")) renomear(it.id);
+  if(b.hasAttribute("data-excluir")) excluir(it.id);
+});
+$("#fCorpo").addEventListener("input", (e) => {
+  const t = e.target; if(t.tagName !== "INPUT") return;
+  t.value = t.value.replace(/\D/g, "").slice(0, 9);
+  const d = rascDe(folha.campo);
+  if(t.dataset.livre) d[t.dataset.livre] = t.value;
+  else d.v[+t.closest(".lin").dataset.k] = t.value;
+  atualizaCalc();
+});
+$("#fCorpo").addEventListener("focusin", (e) => { if(e.target.tagName === "INPUT") setTimeout(() => e.target.select(), 0); });
+$("#fSomar").addEventListener("click", somarFolha);
+$("#fFechar").addEventListener("click", () => fecharFolha(false));
+
+/* =====================================================================
+   AÇÕES
+   ===================================================================== */
 async function novoItem(){
-  const nome = ((await dialogo({ titulo:"Novo item", texto:"Ex.: Ovo branco grande, Caixa 30 dúzias", campo:true, ok:"Criar" })) || "").trim();
+  const nome = ((await dialogo({ titulo:"Novo item", texto:"Para algo que não está na lista.", campo:true, ok:"Criar" })) || "").trim();
   if(!nome) return;
-  if(state.itens.some(i => i.nome.toLowerCase() === nome.toLowerCase())){ toast("Esse item já existe"); return; }
+  if(state.itens.some(i => norm(i.nome) === norm(nome))){ toast("Esse item já existe"); return; }
   try{
     const batch = writeBatch(db);
-    batch.set(doc(itensRef), { nome, total: 0, criadoEm: serverTimestamp() });
+    batch.set(doc(itensRef), { nome, custom:true, totais:{}, criadoEm:serverTimestamp() });
     await batch.commit();
+    state.filtro = "novos"; renderChips(); renderLista();
     toast("Item criado");
   }catch(e){ erro(e); }
 }
 
 async function renomear(id){
-  const item = state.itens.find(i => i.id === id);
-  const nome = ((await dialogo({ titulo:"Renomear item", campo:true, valor:item.nome, ok:"Salvar" })) || "").trim();
-  if(!nome || nome === item.nome) return;
+  const it = itemPorId(id);
+  const nome = ((await dialogo({ titulo:"Renomear item", campo:true, valor:it.nome, ok:"Salvar" })) || "").trim();
+  if(!nome || nome === it.nome) return;
   try{
     const batch = writeBatch(db);
-    batch.update(doc(itensRef, id), { nome });
+    batch.set(doc(itensRef, id), { nome }, { merge:true });
     await batch.commit();
+    $("#fTitulo").textContent = nome;
     toast("Nome alterado");
   }catch(e){ erro(e); }
 }
 
-async function apagarContagensDoItem(id){
-  const snap = await getDocs(query(contRef, where("itemId","==",id)));
+async function apagarLotes(snap){
   for(let i = 0; i < snap.docs.length; i += 400){
     const b = writeBatch(db);
     snap.docs.slice(i, i + 400).forEach(d => b.delete(d.ref));
     await b.commit();
   }
 }
-
 async function excluir(id){
-  const item = state.itens.find(i => i.id === id);
-  if(!await dialogo({ titulo:"Excluir item?", texto:`“${item.nome}” e todo o histórico dele serão apagados.\nTotal atual: ${nf.format(item.total || 0)}`, ok:"Excluir", perigo:true })) return;
+  const it = itemPorId(id);
+  if(!await dialogo({ titulo:"Excluir item?", texto:`“${it.nome}” e todo o histórico dele serão apagados.\nTotal atual: ${fmt(totalDe(it, "q"))}`, ok:"Excluir", perigo:true })) return;
   try{
-    await apagarContagensDoItem(id);
+    fecharFolha(false);
+    await apagarLotes(await getDocs(query(contRef, where("itemId","==",id))));
     const b = writeBatch(db); b.delete(doc(itensRef, id)); await b.commit();
     toast("Item excluído");
   }catch(e){ erro(e); }
 }
 
 async function desfazer(cid){
-  const c = state.hist.find(x => x.id === cid);
-  if(!c) return;
-  if(!await dialogo({ titulo:"Desfazer contagem?", texto:`Tirar +${nf.format(c.qtd)} de “${c.itemNome}”.`, ok:"Desfazer", perigo:true })) return;
+  const c = state.hist.find(x => x.id === cid); if(!c) return;
+  if(!await dialogo({ titulo:"Desfazer contagem?", texto:`Tirar +${fmt(c.qtd)} de “${c.itemNome}”.`, ok:"Desfazer", perigo:true })) return;
   try{
     const b = writeBatch(db);
     b.delete(doc(contRef, cid));
-    if(state.itens.some(i => i.id === c.itemId)) b.update(doc(itensRef, c.itemId), { total: increment(-c.qtd) });
+    b.set(doc(itensRef, c.itemId), { totais:{ [c.campo || "q"]: increment(-c.qtd) } }, { merge:true });
     await b.commit();
     toast("Contagem desfeita");
   }catch(e){ erro(e); }
 }
 
 async function zerarTudo(){
-  if(!state.itens.length) return;
-  if(!await dialogo({ titulo:"Zerar tudo?", texto:"O total de TODOS os itens volta a zero e o histórico é apagado.\nUse só ao começar uma nova contagem.", ok:"Continuar", perigo:true })) return;
+  if(!await dialogo({ titulo:"Zerar tudo?", texto:"Todos os totais voltam a zero e o histórico é apagado.\nUse só ao começar uma nova contagem.", ok:"Continuar", perigo:true })) return;
   if(!await dialogo({ titulo:"Tem certeza?", texto:"Isso não pode ser desfeito.", ok:"Sim, zerar", perigo:true })) return;
   try{
-    const b = writeBatch(db);
-    state.itens.forEach(i => b.update(doc(itensRef, i.id), { total: 0 }));
-    await b.commit();
-    const snap = await getDocs(contRef);
-    for(let i = 0; i < snap.docs.length; i += 400){
-      const bb = writeBatch(db);
-      snap.docs.slice(i, i + 400).forEach(d => bb.delete(d.ref));
-      await bb.commit();
+    const docs = await getDocs(itensRef);
+    for(let i = 0; i < docs.docs.length; i += 400){
+      const b = writeBatch(db);
+      docs.docs.slice(i, i + 400).forEach(d => b.update(d.ref, { totais:{}, total:0 }));
+      await b.commit();
     }
+    await apagarLotes(await getDocs(contRef));
     toast("Contagem zerada");
   }catch(e){ erro(e); }
 }
 
 async function copiarTotais(){
-  if(!state.itens.length){ toast("Nada para copiar"); return; }
-  const hoje = new Date().toLocaleDateString("pt-BR");
-  const txt = `Contagem ${hoje}\n\n` + state.itens.map(i => `${i.nome}: ${nf.format(i.total || 0)}`).join("\n");
+  const itens = state.itens.filter(i => !state.soContados || feito(i));
+  if(!itens.length){ toast("Nada para copiar"); return; }
+  let txt = `Contagem ${new Date().toLocaleDateString("pt-BR")}\n`, g = "";
+  itens.forEach(i => {
+    if(i.grupo !== g){ g = i.grupo; txt += `\n${g}\n`; }
+    txt += `${i.cod ? i.cod + " - " : ""}${i.nome}: ${valoresTexto(i)}\n`;
+  });
   try{ await navigator.clipboard.writeText(txt); toast("Totais copiados"); }
   catch{ await dialogo({ titulo:"Copie o texto", campo:true, valor:txt, ok:"Fechar" }); }
 }
 
-/* ---------- eventos ---------- */
+function baixarCSV(){
+  const q = (v) => typeof v === "string" ? `"${v.replace(/"/g, '""')}"` : v;
+  const linhas = [["Código","Grupo","Descrição","Caixas / Quantidade","Bdj/Est"]];
+  state.itens.forEach(i => {
+    const t = i.campos.map(c => totalDe(i, c.id));
+    linhas.push([i.cod, i.grupo, i.nome, t[0], t[1] ?? ""]);
+  });
+  const csv = "\ufeff" + linhas.map(r => r.map(q).join(";")).join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type:"text/csv;charset=utf-8" }));
+  a.download = "contagem-" + new Date().toISOString().slice(0, 10) + ".csv";
+  document.body.appendChild(a); a.click(); a.remove();
+  toast("Planilha baixada");
+}
+
+/* ---------- eventos gerais ---------- */
 $("#lista").addEventListener("click", (e) => {
-  const t = e.target.closest("button"); if(!t) return;
-  if(t.dataset.somar) somar(t.dataset.somar);
-  else if(t.dataset.atalho){
-    const inp = document.querySelector(`[data-input="${t.dataset.atalho}"]`);
-    const novo = (parseInt(inp.value, 10) || 0) + parseInt(t.dataset.v, 10);
-    inp.value = novo; state.rascunho[t.dataset.atalho] = novo;
-  }
-  else if(t.dataset.renomear) renomear(t.dataset.renomear);
-  else if(t.dataset.excluir) excluir(t.dataset.excluir);
+  const b = e.target.closest("[data-abrir]"); if(b) abrirFolha(b.dataset.abrir);
 });
-$("#lista").addEventListener("input", (e) => {
-  if(e.target.dataset.input) state.rascunho[e.target.dataset.input] = e.target.value;
+$("#chips").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-filtro]"); if(!b) return;
+  state.filtro = b.dataset.filtro; renderChips(); renderLista();
 });
-$("#lista").addEventListener("keydown", (e) => {
-  if(e.key === "Enter" && e.target.dataset.input) somar(e.target.dataset.input);
-});
+$("#busca").addEventListener("input", (e) => { state.busca = e.target.value; renderLista(); });
 $("#hist").addEventListener("click", (e) => {
   const t = e.target.closest("button"); if(t && t.dataset.desfazer) desfazer(t.dataset.desfazer);
 });
-$("#busca").addEventListener("input", () => { state.sigLista = ""; renderLista(); });
 $("#btnNovo").addEventListener("click", novoItem);
+$("#btnSoContados").addEventListener("click", () => { state.soContados = !state.soContados; renderTotais(); });
 $("#btnCopiar").addEventListener("click", copiarTotais);
+$("#btnCSV").addEventListener("click", baixarCSV);
 $("#btnZerar").addEventListener("click", zerarTudo);
 $("#btnQuem").addEventListener("click", async () => {
   const n = await dialogo({ titulo:"Quem está contando?", texto:"Seu nome aparece no histórico.", campo:true, valor:quem(), ok:"Salvar" });
   if(n !== null){ localStorage.setItem("contador_nome", n.trim()); atualizaQuem(); }
 });
 
-if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
-atualizaQuem();
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+montaItens(); renderTudo(); atualizaQuem();
 if(!quem()) setTimeout(() => $("#btnQuem").click(), 400);
 </script>
 </body>
