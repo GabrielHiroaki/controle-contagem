@@ -255,25 +255,37 @@ const ovo = (cod, grupo, cat, nome) => ({ id:"ov" + (cod || "Trinc"), cod:String
 const emb = (id, cod, grupo, nome, unid, linhas) => ({ id, cod:String(cod || ""), nome, grupo, cat:"emb", campos:[{ id:"q", rotulo:"Quantidade", linhas:linhas || [] }], unid });
 
 const CX_30 = [
-  L("Palete", "Jaepel · 300 caixas", 300),
-  L("Palete", "Smurfit Westrock · 250 caixas", 250),
-  L("Fardo", "Smurfit Westrock · 25 caixas", 25)
+  L("Palete · Jaepel", "300 caixas", 300),
+  L("Palete · Smurfit Westrock", "250 caixas", 250),
+  L("Fardo · Smurfit Westrock", "25 caixas", 25)
 ];
 const CX_PLAST = [
-  L("Palete", "Bragagnolo · 280 caixas", 280),
-  L("Palete", "Jaepel · 300 caixas", 300),
-  L("Palete", "Smurfit Westrock · 250 caixas", 250),
-  L("Fardo", "Smurfit Westrock · 25 caixas", 25)
+  L("Palete · Bragagnolo", "280 caixas", 280),
+  L("Palete · Jaepel", "300 caixas", 300),
+  L("Palete · Smurfit Westrock", "250 caixas", 250),
+  L("Fardo · Smurfit Westrock", "25 caixas", 25)
 ];
-const BAND_30 = [ L("Palete", "25 fardos · 3.500 un", 3500), L("Fardo", "Sanovo / Rio Bonito · 140 un", 140) ];
+const BAND_30 = [
+  L("Palete · Sanovo", "25 fardos × 140 = 3.500 un", 3500),
+  L("Fardo · Sanovo", "140 un", 140),
+  L("Palete · Rio Bonito (UNITH)", "25 fardos × 140 = 3.500 un", 3500),
+  L("Fardo · Rio Bonito (UNITH)", "140 un", 140)
+];
 const BAND_20 = [
-  L("Palete T25", "Sanovo · 25 fardos · 2.750 un", 2750), L("Fardo T25", "110 un", 110),
-  L("Palete POJ", "Sanovo · 25 fardos · 3.000 un", 3000), L("Fardo POJ", "120 un", 120)
+  L("Palete · Sanovo T25", "25 fardos × 110 = 2.750 un", 2750),
+  L("Fardo · Sanovo T25", "110 un", 110),
+  L("Palete · Sanovo POJ", "25 fardos × 120 = 3.000 un", 3000),
+  L("Fardo · Sanovo POJ", "120 un", 120)
 ];
-const ESTOJO_DZ = [ L("Palete", "Sanovo · 40 fardos · 4.800 un", 4800), L("Fardo", "120 un", 120) ];
+const ESTOJO_DZ = [
+  L("Palete · Sanovo", "40 fardos × 120 = 4.800 un", 4800),
+  L("Fardo · Sanovo", "120 un", 120)
+];
 const TAMPA = [
-  L("Palete Ovopack", "36 caixas · 50.400 un", 50400), L("Caixa Ovopack", "1.400 un", 1400),
-  L("Palete DCPACK", "30 caixas · 30.000 un", 30000), L("Caixa DCPACK", "1.000 un", 1000)
+  L("Palete · Ovopack", "36 caixas × 1.400 = 50.400 un", 50400),
+  L("Caixa · Ovopack", "1.400 un", 1400),
+  L("Palete · DCPACK", "30 caixas × 1.000 = 30.000 un", 30000),
+  L("Caixa · DCPACK", "1.000 un", 1000)
 ];
 
 const CATALOGO = [
@@ -313,20 +325,20 @@ const CATALOGO = [
   emb("em100033", 100033, "CAIXAS VAZIAS", "CAIXA GRANEL 30 DZ", "caixas", CX_30),
   emb("em100027", 100027, "CAIXAS VAZIAS", "CAIXA ESTOJO 30 DZ", "caixas", CX_30),
   emb("em100032", 100032, "CAIXAS VAZIAS", "CAIXA PLASTIFICADO 30 DZ", "caixas", CX_PLAST),
-  emb("em100025", 100025, "CAIXAS VAZIAS", "CAIXA GRANEL 15 DZ", "caixas", [ L("Palete", "Jaepel · 720 caixas", 720), L("Fardo", "Jaepel · 30 caixas", 30) ]),
-  emb("em100028", 100028, "CAIXAS VAZIAS", "CAIXA DE CODORNA", "caixas", [ L("Palete", "Jaepel · 500 caixas", 500) ]),
-  emb("em104076", 104076, "CAIXAS VAZIAS", "CAIXA AVES LIVRES 20x10", "caixas", [ L("Palete", "Jaepel · 375 caixas", 375) ]),
+  emb("em100025", 100025, "CAIXAS VAZIAS", "CAIXA GRANEL 15 DZ", "caixas", [ L("Palete · Jaepel", "720 caixas", 720), L("Fardo · Jaepel", "30 caixas", 30) ]),
+  emb("em100028", 100028, "CAIXAS VAZIAS", "CAIXA DE CODORNA", "caixas", [ L("Palete · Jaepel", "500 caixas", 500) ]),
+  emb("em104076", 104076, "CAIXAS VAZIAS", "CAIXA AVES LIVRES 20x10", "caixas", [ L("Palete · Jaepel", "375 caixas", 375) ]),
   emb("em100147", 100147, "BANDEJAS E ESTOJOS VAZIOS", "BANDEJA POUPA 30 OVOS", "unidades", BAND_30),
   emb("em100019", 100019, "BANDEJAS E ESTOJOS VAZIOS", "BANDEJA POUPA 20 OVOS", "unidades", BAND_20),
   emb("em100080", 100080, "BANDEJAS E ESTOJOS VAZIOS", 'ESTOJO 1,0 DZ "GB"', "unidades", ESTOJO_DZ),
   emb("em101098", 101098, "BANDEJAS E ESTOJOS VAZIOS", 'ESTOJO 1,0 DZ "GV"', "unidades", ESTOJO_DZ),
   emb("emEst18",  "",     "BANDEJAS E ESTOJOS VAZIOS", "ESTOJO 18 OVOS (1,5 DZ)", "unidades", ESTOJO_DZ),
-  emb("em100092", 100092, "BANDEJAS E ESTOJOS VAZIOS", "ESTOJO PET CODORNA 30 OVOS", "unidades", [ L("Caixa Blister", "800 un", 800) ]),
-  emb("em104075", 104075, "BANDEJAS E ESTOJOS VAZIOS", "ESTOJO AVES LIVRES PET 10 OVOS", "unidades", [ L("Caixa Blister", "600 un", 600) ]),
+  emb("em100092", 100092, "BANDEJAS E ESTOJOS VAZIOS", "ESTOJO PET CODORNA 30 OVOS", "unidades", [ L("Caixa · Blister", "800 un", 800) ]),
+  emb("em104075", 104075, "BANDEJAS E ESTOJOS VAZIOS", "ESTOJO AVES LIVRES PET 10 OVOS", "unidades", [ L("Caixa · Blister", "600 un", 600) ]),
   emb("em100169", 100169, "TAMPAS", "TAMPA PET 30 OVOS", "unidades", TAMPA),
   emb("em100170", 100170, "TAMPAS", "TAMPA PET 20 OVOS", "unidades", TAMPA),
   emb("em100030", 100030, "FILMES E FITAS", "PELÍCULA PLÁSTICO - STRETCH", "unidades", []),
-  emb("em100148", 100148, "FILMES E FITAS", "FILME 480X15X2000 18KG", "caixas", [ L("Palete de 36 caixas", "Solupack", 36), L("Palete de 27 caixas", "Solupack", 27) ]),
+  emb("em100148", 100148, "FILMES E FITAS", "FILME 480X15X2000 18KG", "caixas", [ L("Palete maior · Solupack", "36 caixas", 36), L("Palete menor · Solupack", "27 caixas", 27) ]),
   emb("em100753", 100753, "FILMES E FITAS", "FITA ADESIVA CAIXA PEQUENA", "unidades", []),
   emb("em104582", 104582, "FILMES E FITAS", "FITA ADESIVA CAIXA GRANDE", "unidades", []),
   emb("em101101", 101101, "COUCHÉ E RIBBON", "COUCHE 30 OVOS CODORNA RL 3000", "unidades", []),
@@ -339,6 +351,16 @@ const CATALOGO = [
   emb("em100748", 100748, "COUCHÉ E RIBBON", "RIBBON 110X74 CERA KURZ", "unidades", []),
   emb("em102644", 102644, "COUCHÉ E RIBBON", "RIBBON 11X450 CERA KURZ", "unidades", [])
 ];
+/* nomenclatura do "Mapa de produtos no estoque" para cada item da planilha de inventário */
+const MAPA = {
+  em100033:"Caixa de Granel", em100027:"Caixa de Estojo", em100032:"Caixa de plastificado",
+  em100025:"Caixa de 15 dúzias", em100028:"Caixa de codorna", em104076:"Caixa de Livre de Gaiola",
+  em100147:"Bandeja de 30", em100019:"Bandeja de 20",
+  em100080:"Estojo 12 ovos (branco)", em101098:"Estojo 12 ovos (vermelho)", emEst18:"Estojo 18 ovos",
+  em100092:"Estojo cordona (codorna)", em104075:"Estojo de Livre de Gaiola",
+  em100169:"Tampa de 30", em100170:"Tampa de 20", em100148:"Filme"
+};
+CATALOGO.forEach(c => { if(MAPA[c.id]) c.mapa = MAPA[c.id]; });
 const CAT_IDS = new Set(CATALOGO.map(c => c.id));
 const FILTROS = [
   { id:"todos", nome:"Todos" }, { id:"branco", nome:"Brancos" }, { id:"vermelho", nome:"Vermelhos" },
@@ -459,11 +481,17 @@ function itensVisiveis(somenteContados){
   const q = norm(state.busca.trim());
   return state.itens.filter(i =>
     (state.filtro === "todos" || i.cat === state.filtro) &&
-    (!q || norm(i.cod + " " + i.nome + " " + i.grupo).includes(q)) &&
+    (!q || norm(i.cod + " " + i.nome + " " + i.grupo + " " + (i.mapa || "")).includes(q)) &&
     (!somenteContados || feito(i))
   );
 }
 
+function subDe(i){
+  const p = [];
+  if(i.cod && i.cod.length > 3) p.push("cód. " + i.cod);
+  if(i.mapa) p.push("Mapa: " + i.mapa);
+  return p.length ? `<span class="cd">${esc(p.join(" · "))}</span>` : "";
+}
 function valoresLista(i){
   if(i.campos.length === 1){
     const n = totalDe(i, i.campos[0].id);
@@ -486,7 +514,7 @@ function renderLista(){
     const curto = i.cod && i.cod.length <= 3;
     html += `<button class="li ${feito(i) ? "feito" : ""} ${curto ? "" : "sc"}" data-abrir="${i.id}">
       ${curto ? `<span class="cod">${esc(i.cod)}</span>` : ""}
-      <span class="nm">${esc(i.nome)}${!curto && i.cod ? `<span class="cd">cód. ${esc(i.cod)}</span>` : ""}</span>
+      <span class="nm">${esc(i.nome)}${subDe(i)}</span>
       ${valoresLista(i)}
     </button>`;
   });
@@ -513,7 +541,7 @@ function renderTotais(){
       ? `${fmt(totalDe(i, "q"))}<small>${esc(i.unid || "")}</small>`
       : `${fmt(totalDe(i, "cx"))} <small>caixas</small>${fmt(totalDe(i, "bdj"))} <small>bdj/est</small>`;
     const curto = i.cod && i.cod.length <= 3;
-    html += `<div class="tot-linha ${curto ? "" : "sc"}">${curto ? `<span class="cod">${esc(i.cod)}</span>` : ""}<b>${esc(i.nome)}${!curto && i.cod ? `<span class="cd">cód. ${esc(i.cod)}</span>` : ""}</b><span class="v">${v}</span></div>`;
+    html += `<div class="tot-linha ${curto ? "" : "sc"}">${curto ? `<span class="cod">${esc(i.cod)}</span>` : ""}<b>${esc(i.nome)}${subDe(i)}</b><span class="v">${v}</span></div>`;
   });
   $("#totais").innerHTML = html;
 }
@@ -576,7 +604,7 @@ function renderFolha(){
   const it = itemPorId(folha.id); if(!it){ fecharFolha(); return; }
   const campo = campoAtual(it); folha.campo = campo.id;
   const d = rascDe(campo.id);
-  $("#fCod").textContent = it.cod ? "Código " + it.cod : it.grupo;
+  $("#fCod").textContent = [it.cod ? "Código " + it.cod : it.grupo, it.mapa ? "Mapa: " + it.mapa : ""].filter(Boolean).join(" · ");
   $("#fTitulo").textContent = it.nome;
 
   let html = "";
